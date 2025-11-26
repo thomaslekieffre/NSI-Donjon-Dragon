@@ -1,9 +1,3 @@
-# Configuration pour Windows : permettre l'affichage des emojis
-import sys
-import io
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-
 # Charger la carte depuis le fichier
 grille = []
 with open("carte.txt", "r") as fichier:
