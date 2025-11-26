@@ -1,47 +1,59 @@
-from sys import platform, stdout
-from io import TextIOWrapper
+# Configuration pour Windows : permettre l'affichage des emojis
+import sys
+import io
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# Configurer l'encodage UTF-8 pour Windows
-if platform == 'win32':
-    stdout = TextIOWrapper(stdout.buffer, encoding='utf-8')
-
+# Charger la carte depuis le fichier
 grille = []
-with open("carte.txt", "r") as f:
-    for ligne in f:
-        l=[]
-        for char in ligne.split():
-            l.append(int(char))
-        grille.append(l)
+with open("carte.txt", "r") as fichier:
+    for ligne_texte in fichier:
+        ligne_nombres = []
+        for nombre_str in ligne_texte.split():
+            nombre = int(nombre_str)
+            ligne_nombres.append(nombre)
+        grille.append(ligne_nombres)
 
-def largeur_reelle(s):
-    """Calcule la largeur réelle d'une chaîne (emojis = 2 caractères)"""
-    import unicodedata
+def compter_largeur(texte):
+    """Compte combien d'espaces prend un texte dans le terminal
+    Les emojis prennent 2 espaces, les lettres normales 1 espace"""
+    from unicodedata import east_asian_width
     largeur = 0
-    for char in s:
-        # Vérifier si c'est un emoji ou un caractère large
-        if unicodedata.east_asian_width(char) in ('W', 'F'):
-            largeur += 2
+    for caractere in texte:
+        # Les emojis sont des caractères "larges" (W ou F)
+        if east_asian_width(caractere) in ('W', 'F'):
+            largeur += 2  # Emoji = 2 espaces
         else:
-            largeur += 1
+            largeur += 1  # Caractère normal = 1 espace
     return largeur
 
-def pad_fixe(s, largeur_cible):
-    """Pad une chaîne pour qu'elle prenne exactement largeur_cible caractères"""
-    largeur_actuelle = largeur_reelle(s)
-    if largeur_actuelle >= largeur_cible:
-        return s
-    return s + " " * (largeur_cible - largeur_actuelle)
+def ajouter_espaces(texte, largeur_voulue):
+    """Ajoute des espaces à la fin pour que le texte prenne exactement largeur_voulue espaces
+    Exemple: ajouter_espaces('.', 3) donne '.  ' (1 caractère + 2 espaces = 3)"""
+    largeur_actuelle = compter_largeur(texte)
+    espaces_manquants = largeur_voulue - largeur_actuelle
+    if espaces_manquants <= 0:
+        return texte  # Le texte est déjà assez large
+    return texte + " " * espaces_manquants
         
 def afficher():
-        for ligne in grille:
-            ligne_affichage = ""
-            for element in ligne:
-                if element==1: ligne_affichage += pad_fixe("◼", 3)
-                elif element==2: ligne_affichage += pad_fixe("_", 3)
-                elif element==3: ligne_affichage += pad_fixe("🎁", 3)
-                elif element==4: ligne_affichage += pad_fixe("👾", 3)
-                elif element==5: ligne_affichage += pad_fixe("🧍", 3)
-                else: ligne_affichage += pad_fixe(".", 3)
-            print(ligne_affichage.rstrip())
+    """Affiche la carte dans le terminal avec un alignement correct"""
+    for ligne in grille:
+        ligne_a_afficher = ""
+        for case in ligne:
+            # Chaque case prend 3 espaces de largeur pour que tout soit aligné
+            if case == 1:
+                ligne_a_afficher += ajouter_espaces("◼", 3)  # Mur
+            elif case == 2:
+                ligne_a_afficher += ajouter_espaces("_", 3)   # Porte
+            elif case == 3:
+                ligne_a_afficher += ajouter_espaces("🎁", 3)  # Cadeau
+            elif case == 4:
+                ligne_a_afficher += ajouter_espaces("👾", 3)  # Monstre
+            elif case == 5:
+                ligne_a_afficher += ajouter_espaces("🧍", 3)  # Personnage
+            else:
+                ligne_a_afficher += ajouter_espaces(".", 3)  # Sol vide
+        print(ligne_a_afficher.rstrip())  # Enlever les espaces à la fin de la ligne
 
 afficher()
