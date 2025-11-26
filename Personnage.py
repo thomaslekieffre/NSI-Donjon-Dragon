@@ -1,3 +1,5 @@
+from random import randint
+
 class Personnage:
     
     races = {
@@ -9,8 +11,8 @@ class Personnage:
         }
     
     classes = {
-            "magicien": {"armes": ["d","g"], "sorts": [], "objets": []},
-            "guerrier": {"armes": [], "sorts": [], "objets": []},
+            "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "sorts": ["petite explosion","boule de feu","éclair"], "objets": ["Potion de vie"]},
+            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "sorts": ["Tranche", "Taillade Aérienne"], "objets": ["Potion de soin"]},
         }
     
 
@@ -25,6 +27,9 @@ class Personnage:
         self.lst_armes = Personnage.classes[self.classe]["armes"]
         self.lst_sorts = Personnage.classes[self.classe]["sorts"]
         self.lst_objets = Personnage.classes[self.classe]["objets"]
+
+    def get_nom(self):
+        return self.nom
         
     def get_race(self):
         return self.race
@@ -41,14 +46,8 @@ class Personnage:
     def get_pv(self):
         return self.pt_vie
     
-    def get_armes(self):
-        return self.lst_armes
-    
-        
-p1 = Personnage("Thomas", "nain", "magicien", [],[],[])
-print(p1.get_race())
-print(p1.get_classe())
-print(p1.get_force())
-print(p1.get_dext())
-print(p1.get_pv())
-print(p1.get_armes())
+    def get_arme(self):
+        return self.lst_armes[randint(0,len(self.lst_armes)-1)]
+
+    def decrement_PV(self, valeur):
+        self.pt_vie -= valeur
