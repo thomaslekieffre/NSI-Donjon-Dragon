@@ -1,9 +1,9 @@
-import sys
-import io
+from sys import platform, stdout
+from io import TextIOWrapper
 
 # Configurer l'encodage UTF-8 pour Windows
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+if platform == 'win32':
+    stdout = TextIOWrapper(stdout.buffer, encoding='utf-8')
 
 grille = []
 with open("carte.txt", "r") as f:
