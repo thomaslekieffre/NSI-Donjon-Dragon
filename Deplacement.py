@@ -61,15 +61,17 @@ def deplacer_personnage(personnage, direction):
 
 
 # Boucle de déplacement
-while True:
+continuer = True
+while continuer:
     choix = input("\nVoulez-vous déplacer le personnage ? (o/n) : ")
     if choix.lower() == "n":
         print("Le personnage ne se déplace pas")
+        continuer = False
         
     elif choix.lower() == "o":
         direction = input("Direction (haut/bas/gauche/droite) : ")
-    if deplacer_personnage(personnage, direction.lower()):
-        afficher()
+        if deplacer_personnage(personnage, direction):
+            afficher()
     else:
         print("Choix invalide. Utilisez 'o' pour oui ou 'n' pour non")
     
