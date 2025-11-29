@@ -1,4 +1,7 @@
 # Charger la carte depuis le fichier
+from Personnage import Personnage
+
+
 grille = []
 with open("carte.txt", "r") as fichier:
     for ligne_texte in fichier:

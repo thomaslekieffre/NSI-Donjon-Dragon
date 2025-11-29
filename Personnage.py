@@ -16,7 +16,7 @@ class Personnage:
         }
     
 
-    def __init__(self,nom, race, classe,  lst_armes, lst_sorts, lst_objets):
+    def __init__(self,nom, race, classe,  lst_armes, lst_sorts, lst_objets, x, y):
         self.nom = nom
         self.race = race
         self.classe = classe
@@ -27,7 +27,8 @@ class Personnage:
         self.lst_armes = Personnage.classes[self.classe]["armes"]
         self.lst_sorts = Personnage.classes[self.classe]["sorts"]
         self.lst_objets = Personnage.classes[self.classe]["objets"]
-
+        self.x = x
+        self.y = y
     def get_nom(self):
         return self.nom
         
@@ -45,6 +46,9 @@ class Personnage:
     
     def get_pv(self):
         return self.pt_vie
+
+    def get_position(self):
+        return self.x, self.y
     
     def get_arme(self):
         return self.lst_armes[randint(0,len(self.lst_armes)-1)]
