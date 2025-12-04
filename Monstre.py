@@ -3,10 +3,10 @@ from random import randint
 class Monstre:
     
     races = {
-            "Ogre": {"pv": 130, "force": 15, "dext": 0.2, "armure": 30},
-            "Géant": {"pv": 60, "force": 15, "dext": 2, "armure": 5},
-            "Gorille": {"pv": 90, "force": 20, "dext": 2, "armure": 10},
-            "Troll": {"pv": 110, "force": 10, "dext": 0.5, "armure": 15},
+            "Ogre": {"pv": 130, "force": 15, "dext": 0.2, "armure": 30, "inventaire":{"or": 50, "dague": 1, "potion": 2, "os de poulet": 2}},
+            "Géant": {"pv": 60, "force": 15, "dext": 2, "armure": 5, "inventaire":{"or": 100, "dague": 0, "potion": 0, "os de poulet": 5}},
+            "Gorille": {"pv": 90, "force": 20, "dext": 2, "armure": 10, "inventaire":{"or": 75, "dague": 0, "potion": 4, "os de poulet": 1}},
+            "Troll": {"pv": 110, "force": 10, "dext": 0.5, "armure": 15, "inventaire":{"or": 25, "dague": 1, "potion": 2, "os de poulet": 3}},
         }
     
     classes = {
@@ -46,6 +46,10 @@ class Monstre:
     
     def get_arme(self):
         return self.lst_armes[randint(0,len(self.lst_armes)-1)]
+    
+    def get_inventaire(self):
+        for element, quantite in self.races[self.race]["inventaire"].items():
+            print(f"- {quantite}x {element}")
 
     def decrement_PV(self, valeur):
         self.pt_vie -= valeur

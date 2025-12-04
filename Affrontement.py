@@ -66,7 +66,7 @@ class Affrontement :
         elif mechant.get_pv() <= 0:
             print(heros.get_nom()  + " (" + str(heros.get_pv()) + " PV) ,  a remporté le combat à mort")
     
-combattant = Personnage("Toto", "nain", "magicien", [],[],[])
+combattant = Personnage("Toto", "nain", "magicien", [],[])
 gnome = Monstre("Gnome", "Ogre", "puissant")
 tournoi = Affrontement()
 tournoi.combatAMort(combattant,gnome)

@@ -1,13 +1,14 @@
 from random import randint
+from Monstre import Monstre
 
 class Personnage:
     
     races = {
-            "humain": {"pv": 100, "force": 15, "dext": 1, "armure": 10},
-            "elfe": {"pv": 80, "force": 15, "dext": 2, "armure": 5},
-            "nain": {"pv": 90, "force": 20, "dext": 1, "armure": 15},
-            "orc": {"pv": 110, "force": 20, "dext": 0, "armure": 15},
-            "goblin": {"pv": 90, "force": 15, "dext": 2, "armure": 10}
+            "humain": {"pv": 100, "force": 15, "dext": 1, "armure": 10, "inventaire":{"or": 50, "potion": 2}},
+            "elfe": {"pv": 80, "force": 15, "dext": 2, "armure": 5, "inventaire":{"or": 50, "potion": 2}},
+            "nain": {"pv": 90, "force": 20, "dext": 1, "armure": 15, "inventaire":{"or": 50, "potion": 2}},
+            "orc": {"pv": 110, "force": 20, "dext": 0, "armure": 15, "inventaire":{"or": 50, "potion": 2}},
+            "goblin": {"pv": 90, "force": 15, "dext": 2, "armure": 10, "inventaire":{"or": 50, "potion": 2}}
         }
     
     classes = {
@@ -16,7 +17,7 @@ class Personnage:
         }
     
 
-    def __init__(self,nom, race, classe,  lst_armes, lst_sorts, lst_objets, x, y):
+    def __init__(self, nom, race, classe, x, y):
         self.nom = nom
         self.race = race
         self.classe = classe
@@ -29,6 +30,7 @@ class Personnage:
         self.lst_objets = Personnage.classes[self.classe]["objets"]
         self.x = x
         self.y = y
+
     def get_nom(self):
         return self.nom
         
@@ -51,7 +53,20 @@ class Personnage:
         return self.x, self.y
     
     def get_arme(self):
-        return self.lst_armes[randint(0,len(self.lst_armes)-1)]
+        return self.lst_armes[randint(0, len(self.lst_armes)-1)]
 
     def decrement_PV(self, valeur):
         self.pt_vie -= valeur
+
+    def get_inventaire(self):
+        for element, quantite in self.races[self.race]["inventaire"].items():
+            print(f"- {quantite}x {element}")
+            
+    def piller_monstre(self, monstre):
+        for element, quantite in monstre.races[monstre.race]["inventaire"].items():
+            if element in self.races[self.race]["inventaire"]:
+                self.races[self.race]["inventaire"][element] += quantite
+            else:
+                self.races[self.race]["inventaire"][element] = quantite
+        monstre.races[monstre.race]["inventaire"] = {}  
+        return self.races[self.race]["inventaire"]
