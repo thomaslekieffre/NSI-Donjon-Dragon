@@ -28,7 +28,6 @@
   - Équilibrage des rencontres.
 
 # 4) Remarques techniques / suggestions rapides
-### - Remplacer "from X import *" par "from X import Monstre" ou "import X".
 ### - Pour le calcul dégâts : utiliser formule (dégâts = max(1, attaque - armure/10)) ou chance critique pour variation.
 
 Fin du TODO.
