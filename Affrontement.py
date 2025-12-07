@@ -1,5 +1,6 @@
-from Monstre import *
-from Personnage import *
+from random import randint
+from Monstre import Monstre
+from Personnage import Personnage
 
 class Affrontement :
     def __init__(self, niveau = "Easy"):
@@ -65,8 +66,3 @@ class Affrontement :
             print( "Le monstre armé d'un " + mechant.get_arme() + " avec une force de " + str(mechant.get_force()) + " remporte le combat à mort ")
         elif mechant.get_pv() <= 0:
             print(heros.get_nom()  + " (" + str(heros.get_pv()) + " PV) ,  a remporté le combat à mort")
-    
-combattant = Personnage("Toto", "nain", "magicien", [],[])
-gnome = Monstre("Gnome", "Ogre", "puissant")
-tournoi = Affrontement()
-tournoi.combatAMort(combattant,gnome)

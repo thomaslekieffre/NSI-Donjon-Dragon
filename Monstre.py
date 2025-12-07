@@ -10,8 +10,8 @@ class Monstre:
         }
     
     classes = {
-            "puissant": {"armes": ["Massue","Poing Américain"], "sorts": ["Grand coup de massue","Coup de poing américain"]},
-            "rapide": {"armes": ["Dague","Couteau"], "sorts": ["Coup de dague","Coup de couteau"]},
+            "puissant": {"armes": ["Massue","Poing Américain"]},
+            "rapide": {"armes": ["Dague","Couteau"]},
         }
     
 
@@ -19,12 +19,11 @@ class Monstre:
         self.nom = nom
         self.race = race
         self.classe = classe
-        self.pt_vie = Monstre.races[self.race]["pv"]
+        self.pv = Monstre.races[self.race]["pv"]
         self.force = Monstre.races[self.race]["force"]
         self.dext = Monstre.races[self.race]["dext"]
         self.armure = Monstre.races[self.race]["armure"]
         self.lst_armes = Monstre.classes[self.classe]["armes"]
-        self.lst_sorts = Monstre.classes[self.classe]["sorts"]
 
     def get_nom(self):
         return self.nom
@@ -42,7 +41,7 @@ class Monstre:
         return self.dext
     
     def get_pv(self):
-        return self.pt_vie
+        return self.pv
     
     def get_arme(self):
         return self.lst_armes[randint(0,len(self.lst_armes)-1)]
@@ -52,4 +51,6 @@ class Monstre:
             print(f"- {quantite}x {element}")
 
     def decrement_PV(self, valeur):
-        self.pt_vie -= valeur
+        self.pv -= valeur
+        if self.pv < 0:
+            self.pv = 0

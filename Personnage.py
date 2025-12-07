@@ -12,21 +12,21 @@ class Personnage:
         }
     
     classes = {
-            "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "sorts": ["petite explosion","boule de feu","éclair"], "objets": ["Potion de vie"]},
-            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "sorts": ["Tranche", "Taillade Aérienne"], "objets": ["Potion de soin"]},
+            "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "objets": ["Potion de vie"]},
+            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "objets": ["Potion de soin"]},
         }
     
 
-    def __init__(self, nom, race, classe, x, y):
+    def __init__(self, nom, race, classe, x=0, y=0):
         self.nom = nom
         self.race = race
         self.classe = classe
-        self.pt_vie = Personnage.races[self.race]["pv"]
+        self.pv = Personnage.races[self.race]["pv"]
+        self.max_pv = Personnage.races[self.race]["pv"]
         self.force = Personnage.races[self.race]["force"]
         self.dext = Personnage.races[self.race]["dext"]
         self.armure = Personnage.races[self.race]["armure"]
         self.lst_armes = Personnage.classes[self.classe]["armes"]
-        self.lst_sorts = Personnage.classes[self.classe]["sorts"]
         self.lst_objets = Personnage.classes[self.classe]["objets"]
         self.x = x
         self.y = y
@@ -47,7 +47,10 @@ class Personnage:
         return self.dext
     
     def get_pv(self):
-        return self.pt_vie
+        return self.pv
+
+    def get_max_pv(self):
+        return self.max_pv
 
     def get_position(self):
         return self.x, self.y
@@ -56,7 +59,9 @@ class Personnage:
         return self.lst_armes[randint(0, len(self.lst_armes)-1)]
 
     def decrement_PV(self, valeur):
-        self.pt_vie -= valeur
+        self.pv -= valeur
+        if self.pv < 0:
+            self.pv = 0
 
     def get_inventaire(self):
         for element, quantite in self.races[self.race]["inventaire"].items():
