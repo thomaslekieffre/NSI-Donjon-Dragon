@@ -67,7 +67,7 @@ def ajouter_monstres(nombre):
     if not cases_vides:
         return
     positions = sample(cases_vides, k=min(nombre, len(cases_vides)))
-    # On choisit aléatoirement des cases libres pour peupler la carte de monstres
+    # On choisit aléatoirement des cases libres pour mettre des monstres sur la carte
     for x, y in positions:
         grille[y][x] = 4
 

@@ -1,4 +1,3 @@
-# Charger la carte depuis le fichier
 from Personnage import Personnage
 
 
