@@ -66,8 +66,9 @@ def ajouter_monstres(nombre):
     cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
     if not cases_vides:
         return
+    # sample garantit des positions uniques (pas de doublons comme choice en boucle)
+    # On choisit k le plus petit nombre entre le nombre de monstres à ajouter et le nombre de cases vides
     positions = sample(cases_vides, k=min(nombre, len(cases_vides)))
-    # On choisit aléatoirement des cases libres pour mettre des monstres sur la carte
     for x, y in positions:
         grille[y][x] = 4
 
