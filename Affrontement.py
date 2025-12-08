@@ -28,7 +28,7 @@ class Affrontement :
         is_attack_heros = True
         is_attack_mechant = True
          
-        print("Combat opposant " + heros.get_nom() + " (" + str(heros.get_pv()) + " PV) a un monstre armé d'un " + mechant.get_arme() + " avec une dextérité de " + str(mechant.get_dext()))
+        print("Combat opposant " + heros.get_nom() + " (" + str(heros.get_pv()) + " PV) a " + mechant.get_nom() + "armé d'un " + mechant.get_arme() + " avec une dextérité de " + str(mechant.get_dext()))
         
         if heros.get_dext() > mechant.get_dext() :
             print( heros.get_nom() + " (" + str(heros.get_pv()) + " PV) attaque en premier")
@@ -44,8 +44,8 @@ class Affrontement :
             
         else :
             print( "Le monstre (" + str(mechant.get_pv()) + " PV) attaque en premier")
-            print("PAF")
-            heros.decrement_PV(randint(1,mechant.get_force()))
+            pv_decremente = heros.decrement_PV(randint(1,mechant.get_force()))
+            print(f"PAF ! Le monstre vous a retiré {pv_decremente} PV")
             is_attack = False
         
         while heros.get_pv() > 0 and mechant.get_pv() > 0 :

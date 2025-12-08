@@ -12,8 +12,8 @@ class Personnage:
         }
     
     classes = {
-            "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "objets": ["Potion de vie"]},
-            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "objets": ["Potion de soin"]},
+            "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "sorts": ["petite explosion","boule de feu","éclair"], "objets": ["Potion de vie"]},
+            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "sorts": ["Tranche", "Taillade Aérienne"], "objets": ["Potion de soin"]},
         }
     
 
