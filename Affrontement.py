@@ -34,12 +34,13 @@ class Affrontement :
             print( heros.get_nom() + " (" + str(heros.get_pv()) + " PV) attaque en premier")
             choix = 0
             while choix != 1 or choix != 2:
-                choix = int(input("Souhaitez vous : \n attaquer normalement : 1 \n utiliser un sort : 2"))
+                choix = int(input("Souhaitez vous : \n attaquer normalement : 1 \n utiliser un sort : 2 \n"))
                 if choix == 1:
                     mechant.decrement_PV(randint(1,heros.get_force()))
                     is_attack = False
                 elif choix == 2:
                     print("On lance un sort")
+                    sort = int(input(f"Quel sort souhaitez vous utiliser : {classes[heros.get_classe()][sorts][0]}  1 \n utiliser un sort : 2 \n Votre choix : "))
                     is_attack = False
             
         elif heros.get_dext() == mechant.get_dext() :
@@ -50,6 +51,7 @@ class Affrontement :
                 is_attack = False
             elif choix == 2:
                 print("On lance un sort")
+                sort = int(input(f"Quel sort souhaitez vous utiliser : {classes[heros.get_classe()][sorts][0]}  1 \n utiliser un sort : 2 \n Votre choix : "))
                 is_attack = False
             
         else :
@@ -70,6 +72,7 @@ class Affrontement :
                         is_attack_mechant = True
                     elif choix == 2:
                         print("On lance un sort")
+                        sort = int(input(f"Quel sort souhaitez vous utiliser : {classes[heros.get_classe()][sorts][0]}  1 \n utiliser un sort : 2 \n Votre choix : "))
                         is_attack_heros = False
                         is_attack_mechant = True
                 

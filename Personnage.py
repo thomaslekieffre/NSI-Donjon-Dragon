@@ -13,7 +13,7 @@ class Personnage:
     
     classes = {
             "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "sorts": {"Petite explosion":20,"Boule de feu":35,"Éclair":50}, "objets": ["Potion de vie"]},
-            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "sorts": {"Tranche":20, "Taillade Aérienne":35}, "objets": ["Potion de soin"]},
+            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "sorts": {"Tranche":20, "Brisefer":35, "Taillade Aérienne":50}, "objets": ["Potion de soin"]},
         }
     
 
@@ -57,6 +57,10 @@ class Personnage:
     
     def get_arme(self):
         return self.lst_armes[randint(0, len(self.lst_armes)-1)]
+    
+    def get_sorts(self):
+        for element, degats in self.classes[self.classe]["sorts"].items():
+            print(f" - {element} - {degats}")
 
     def decrement_PV(self, valeur):
         self.pv -= valeur
@@ -75,3 +79,6 @@ class Personnage:
                 self.races[self.race]["inventaire"][element] = quantite
         monstre.races[monstre.race]["inventaire"] = {}  
         return self.races[self.race]["inventaire"]
+    
+    
+p1 = Personnage("zozo","orc","magicien")
