@@ -18,7 +18,17 @@ class Personnage:
     
 
     def __init__(self, nom, race, classe, x=0, y=0):
-        self.nom = nom
+        # Sécurisation des entrées utilisateur : on normalise et on fallback si inconnu
+        race = (race or "").lower()
+        classe = (classe or "").lower()
+        if race not in Personnage.races:
+            print("Race inconnue, utilisation de 'humain'.")
+            race = "humain"
+        if classe not in Personnage.classes:
+            print("Classe inconnue, utilisation de 'guerrier'.")
+            classe = "guerrier"
+
+        self.nom = nom or "Heros"
         self.race = race
         self.classe = classe
         self.pv = Personnage.races[self.race]["pv"]
@@ -59,13 +69,14 @@ class Personnage:
         return self.lst_armes[randint(0, len(self.lst_armes)-1)]
     
     def get_sorts(self):
-        for element, degats in self.classes[self.classe]["sorts"].items():
-            print(f" - {element} - {degats}")
+        """Retourne la liste des sorts disponibles pour le perso courant."""
+        return list(self.classes[self.classe]["sorts"].items())
 
     def decrement_PV(self, valeur):
         self.pv -= valeur
         if self.pv < 0:
             self.pv = 0
+        return self.pv
 
     def get_inventaire(self):
         for element, quantite in self.races[self.race]["inventaire"].items():
@@ -79,6 +90,5 @@ class Personnage:
                 self.races[self.race]["inventaire"][element] = quantite
         monstre.races[monstre.race]["inventaire"] = {}  
         return self.races[self.race]["inventaire"]
-    
-    
+        
 p1 = Personnage("zozo","orc","magicien")

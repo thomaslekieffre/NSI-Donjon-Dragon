@@ -30,6 +30,16 @@ def generer_monstre():
     return Monstre(nom, race, classe)
 
 
+def saisie_option(prompt, options, default):
+    """Renvoie la valeur si dans options sinon le défaut, sans crasher."""
+    valeur = input(prompt).strip().lower()
+    if valeur in options:
+        return valeur
+    if valeur:
+        print(f"Choix inconnu, on prend '{default}'.")
+    return default
+
+
 def resoudre_case(personnage, tile):
     messages = []
     if tile == 2:
@@ -87,9 +97,9 @@ def utiliser_potion(personnage, soin=30):
 
 def creer_personnage():
     x, y = trouver_position_depart()
-    nom = input("Nom du héros ? ") or "Héros"
-    race = input("Race (humain/elfe/nain/orc/goblin) ? ") or "humain"
-    classe = input("Classe (magicien/guerrier) ? ") or "guerrier"
+    nom = input("Nom du héros ? ").strip() or "Heros"
+    race = saisie_option("Race (humain/elfe/nain/orc/goblin) ? ", Personnage.races.keys(), "humain")
+    classe = saisie_option("Classe (magicien/guerrier) ? ", Personnage.classes.keys(), "guerrier")
     return Personnage(nom, race, classe, x, y)
 
 
@@ -106,7 +116,7 @@ def boucle_jeu():
         messages = []
         print(f"PV: {perso.get_pv()}/{perso.get_max_pv()} | Potions: {Personnage.races[perso.race]['inventaire'].get('potion',0)} | Or: {Personnage.races[perso.race]['inventaire'].get('or',0)}")
         print("Deplacement zqsd ou haut/bas/gauche/droite, i inventaire, p potion, exit pour quitter")
-        cmd = input("> ").lower()
+        cmd = input("> ").strip().lower()
         quitter = cmd in ("exit", "quit", "q!")
         if quitter:
             en_cours = False
@@ -116,6 +126,9 @@ def boucle_jeu():
             messages.extend(utiliser_potion(perso) or [])
         else:
             direction = DIRECTIONS.get(cmd, cmd)
+            if direction not in DIRECTIONS.values():
+                print("Commande inconnue. Utilise z/q/s/d ou haut/bas/gauche/droite.")
+                continue
             ancien_x, ancien_y = perso.x, perso.y
             deplace, tile = deplacer_personnage(perso, direction)
             if deplace:
