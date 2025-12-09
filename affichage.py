@@ -10,12 +10,12 @@ with open("carte.txt", "r") as f:
 def afficher():
         for ligne in grille:
             for element in ligne:
-                if element==1: print("◼️️",end=" ")
-                elif element==2: print(" _ ",end=" ")
-                elif element==3: print("🎁",end=" ")
-                elif element==4: print("👾",end=" ")
-                elif element==5: print("🧍🏽‍♀️",end=" ")
-                else: print("  .  ",end=" ")
+                if element==1: print("◼",end=" ")
+                elif element==2: print("_",end=" ")
+                elif element==3: print("⊞",end=" ")
+                elif element==4: print("☻",end=" ")
+                elif element==5: print("♀",end=" ")
+                else: print(".",end=" ")
             print()
         
 afficher()

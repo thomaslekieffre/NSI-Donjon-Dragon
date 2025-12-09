@@ -126,6 +126,6 @@ def boucle_jeu():
                     perso.x, perso.y = ancien_x, ancien_y
                     grille[ancien_y][ancien_x] = 5
 
-    print("Fin du jeu.")
+    print("Fin du jeu. Vous avez perdu !")
 
 boucle_jeu()
