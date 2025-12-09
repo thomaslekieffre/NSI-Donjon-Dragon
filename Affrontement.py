@@ -32,28 +32,46 @@ class Affrontement :
         
         if heros.get_dext() > mechant.get_dext() :
             print( heros.get_nom() + " (" + str(heros.get_pv()) + " PV) attaque en premier")
-            print("PAF")
-            mechant.decrement_PV(randint(1,heros.get_force()))
-            is_attack = False
+            choix = 0
+            while choix != 1 or choix != 2:
+                choix = int(input("Souhaitez vous : \n attaquer normalement : 1 \n utiliser un sort : 2"))
+                if choix == 1:
+                    mechant.decrement_PV(randint(1,heros.get_force()))
+                    is_attack = False
+                elif choix == 2:
+                    print("On lance un sort")
+                    is_attack = False
             
         elif heros.get_dext() == mechant.get_dext() :
             print( heros.get_nom() + " (" + str(heros.get_pv()) + " PV) attaque en premier")
-            print("PAF")
-            mechant.decrement_PV(randint(1,heros.get_force()))
-            is_attack = False
+            choix = int(input("Souhaitez vous : \n attaquer normalement : 1 \n utiliser un sort : 2"))
+            if choix == 1:
+                mechant.decrement_PV(randint(1,heros.get_force()))
+                is_attack = False
+            elif choix == 2:
+                print("On lance un sort")
+                is_attack = False
             
         else :
             print( "Le monstre (" + str(mechant.get_pv()) + " PV) attaque en premier")
             pv_decremente = heros.decrement_PV(randint(1,mechant.get_force()))
             print(f"PAF ! Le monstre vous a retiré {pv_decremente} PV")
+            print(pv_decremente)
             is_attack = False
         
         while heros.get_pv() > 0 and mechant.get_pv() > 0 :
             if is_attack_heros == True :
-                print("PAF")
-                mechant.decrement_PV(randint(1,heros.get_force()))
-                is_attack_heros = False
-                is_attack_mechant = True
+                choix = 0
+                while choix != 1 and choix != 2:
+                    choix = int(input("Souhaitez vous : \n attaquer normalement : 1 \n utiliser un sort : 2 \n Votre choix : "))
+                    if choix == 1:
+                        mechant.decrement_PV(randint(1,heros.get_force()))
+                        is_attack_heros = False
+                        is_attack_mechant = True
+                    elif choix == 2:
+                        print("On lance un sort")
+                        is_attack_heros = False
+                        is_attack_mechant = True
                 
             elif is_attack_mechant == True :
                 print("PAF")
