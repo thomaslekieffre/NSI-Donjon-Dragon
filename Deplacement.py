@@ -41,12 +41,12 @@ def deplacer_personnage(personnage, direction):
         print("Déplacement impossible : sortie de la carte (gauche/droite)")
         return False, None
     
-    tile = grille[y_nouveau][x_nouveau]
+    case = grille[y_nouveau][x_nouveau]
 
     # Vérifier si la case de destination est un mur (1 = mur)
-    if tile == 1:
+    if case == 1:
         print("Déplacement impossible : vous ne pouvez pas traverser un mur")
-        return False, tile
+        return False, case
     
     # Effectuer le déplacement
     grille[y_actuel][x_actuel] = 0
@@ -54,4 +54,4 @@ def deplacer_personnage(personnage, direction):
     personnage.x = x_nouveau
     personnage.y = y_nouveau
     
-    return True, tile
+    return True, case

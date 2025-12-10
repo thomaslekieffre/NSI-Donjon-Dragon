@@ -3,14 +3,10 @@ from Monstre import Monstre
 from Personnage import Personnage
 
 class Affrontement :
-    def __init__(self, niveau = "Easy"):
-        self.__niveau = niveau
+    def __init__(self):
         self.__nbr_combat = 0
         self.__nbr_coups = 0
-         
-    def get_niveau(self):
-        return self.__niveau
-    
+        
     def get_nbr_combat(self):
         return self.__nbr_combat
     

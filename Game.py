@@ -40,9 +40,9 @@ def saisie_option(prompt, options, default):
     return default
 
 
-def resoudre_case(personnage, tile):
+def resoudre_case(personnage, case):
     messages = []
-    if tile == 2:
+    if case == 2:
         bourse = Personnage.races[personnage.race]["inventaire"]
         if bourse.get("or", 0) >= 200:
             bourse["or"] -= 200
@@ -52,13 +52,13 @@ def resoudre_case(personnage, tile):
         return True, True, messages
 
     # TODO : Gérer coffre aléatoire (potion, or ...)
-    if tile == 3:
+    if case == 3:
         sac = Personnage.races[personnage.race]["inventaire"]
         sac["potion"] = sac.get("potion", 0) + 1
         messages.append("Tu ouvres un coffre : +1 potion")
         return True, False, messages
 
-    if tile == 4:
+    if case == 4:
         monstre = generer_monstre()
         combat = Affrontement()
         combat.combatAMort(personnage, monstre)
@@ -130,12 +130,12 @@ def boucle_jeu():
                 print("Commande inconnue. Utilise z/q/s/d ou haut/bas/gauche/droite.")
                 continue
             ancien_x, ancien_y = perso.x, perso.y
-            deplace, tile = deplacer_personnage(perso, direction)
+            deplace, case = deplacer_personnage(perso, direction)
             if deplace:
-                en_cours, revert, new_msgs = resoudre_case(perso, tile)
+                en_cours, revert, new_msgs = resoudre_case(perso, case)
                 messages.extend(new_msgs)
                 if revert:
-                    grille[perso.y][perso.x] = tile
+                    grille[perso.y][perso.x] = case
                     perso.x, perso.y = ancien_x, ancien_y
                     grille[ancien_y][ancien_x] = 5
 
