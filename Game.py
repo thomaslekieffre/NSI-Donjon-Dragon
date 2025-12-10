@@ -13,6 +13,9 @@ DIRECTIONS = {
     "d": "droite",
 }
 
+porte1_ouverte = False
+porte2_ouverte = True
+
 
 def trouver_position_depart():
     """Retourne les coordonnées où la carte contient un 5 (perso placé dans la map)."""
@@ -44,11 +47,24 @@ def resoudre_case(personnage, case):
     messages = []
     if case == 2:
         bourse = Personnage.races[personnage.race]["inventaire"]
-        if bourse.get("or", 0) >= 200:
-            bourse["or"] -= 200
-            messages.append("Tu utilises 200 pieces pour ouvrir la porte. GG !")
-            return False, False, messages
-        messages.append("Il faut 200 pieces pour ouvrir cette porte. (pas assez)")
+        if bourse.get("or", 0) >= 150:
+            bourse["or"] -= 150
+            messages.append("Tu utilises 150 pieces pour ouvrir la porte. GG !")
+            grille[personnage.y][personnage.x] = 5
+            porte1_ouverte = True
+            return True, False, messages
+        messages.append("Il faut 150 pièces pour ouvrir cette porte. (pas assez)")
+        return True, True, messages
+    
+    if case == 7:
+        bourse = Personnage.races[personnage.race]["inventaire"]
+        if bourse.get("or", 0) >= 150:
+            bourse["or"] -= 150
+            messages.append("Tu utilises 150 pieces pour ouvrir la porte. GG !")
+            grille[personnage.y][personnage.x] = 5
+            porte2_ouverte = True
+            return True, False, messages
+        messages.append("Il faut 150 pièces pour ouvrir cette porte. (pas assez)")
         return True, True, messages
 
     # TODO : Gérer coffre aléatoire (potion, or ...)
@@ -65,6 +81,7 @@ def resoudre_case(personnage, case):
         if personnage.get_pv() <= 0:
             messages.append("Ton heros est tombe. Fin de partie.")
             return False, False, messages
+        print(monstre.get_inventaire())
         personnage.piller_monstre(monstre)
         messages.append("Le monstre laisse son loot. Inventaire mis a jour.")
         return True, False, messages

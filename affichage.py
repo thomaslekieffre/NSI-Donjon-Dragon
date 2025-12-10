@@ -15,6 +15,8 @@ def afficher():
             3: "⊞",
             4: "☻",
             5: "♀",
+            6: "_",
+            7: "|"
         }
         print("\n=== Carte ===")
         for ligne in grille:

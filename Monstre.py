@@ -4,9 +4,9 @@ class Monstre:
     
     races = {
             "Ogre": {"pv": 130, "force": 15, "dext": 0.2, "armure": 30, "inventaire":{"or": 50, "dague": 1, "potion": 2, "os de poulet": 2}},
-            "Géant": {"pv": 120, "force": 15, "dext": 1, "armure": 5, "inventaire":{"or": 100, "os de poulet": 5}},
+            "Géant": {"pv": 120, "force": 15, "dext": 1, "armure": 5, "inventaire":{"or": 140, "os de poulet": 5}},
             "Gorille": {"pv": 90, "force": 30, "dext": .5, "armure": 10, "inventaire":{"or": 100, "potion": 4, "os de poulet": 1}},
-            "Troll": {"pv": 110, "force": 10, "dext": 0.5, "armure": 15, "inventaire":{"or": 55, "dague": 1, "potion": 2, "os de poulet": 3}},
+            "Troll": {"pv": 110, "force": 10, "dext": 0.5, "armure": 15, "inventaire":{"or": 75, "dague": 1, "potion": 2, "os de poulet": 3}},
         }
     
     classes = {
