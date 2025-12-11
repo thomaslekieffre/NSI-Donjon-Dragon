@@ -14,10 +14,6 @@ DIRECTIONS = {
     "d": "droite",
 }
 
-porte1_ouverte = False
-porte2_ouverte = False
-porte3_ouverte = False
-
 def trouver_position_depart():
     """Retourne les coordonnées où la carte contient un 5 (perso placé dans la map)."""
     for y, ligne in enumerate(grille):
@@ -50,7 +46,7 @@ def saisie_option(prompt, options, default):
         print(f"Choix inconnu, on prend '{default}'.")
     return default
 
-def resoudre_case(personnage, case):
+def resoudre_case(personnage, case, etat):
     messages = []
     if case == 2:
         bourse = Personnage.races[personnage.race]["inventaire"]
@@ -58,7 +54,7 @@ def resoudre_case(personnage, case):
             bourse["or"] -= 150
             messages.append("Tu utilises 150 pièces pour ouvrir la porte. GG !")
             grille[personnage.y][personnage.x] = 5
-            porte1_ouverte = True
+            etat["porte1_ouverte"] = True
             return True, False, messages
         messages.append("Il faut 150 pièces pour ouvrir cette porte. (pas assez)")
         return True, True, messages
@@ -69,7 +65,7 @@ def resoudre_case(personnage, case):
             bourse["or"] -= 150
             messages.append("Tu utilises 150 pièces pour ouvrir la porte. GG !")
             grille[personnage.y][personnage.x] = 5
-            porte2_ouverte = True
+            etat["porte2_ouverte"] = True
             return True, False, messages
         messages.append("Il faut 150 pièces pour ouvrir cette porte. (pas assez)")
         return True, True, messages
@@ -81,7 +77,11 @@ def resoudre_case(personnage, case):
             bourse["os de poulet"]-= 10
             messages.append("Tu utilises 200 pièces et 10 os de poulet pour ouvrir le portail magique. GG !")
             grille[personnage.y][personnage.x] = 5
-            porte3_ouverte = True
+            etat["porte3_ouverte"] = True
+            if etat["porte1_ouverte"] and etat["porte2_ouverte"] and etat["porte3_ouverte"]:
+                etat["victoire"] = True
+                messages.append("Porte finale ouverte : victoire !")
+                return False, False, messages
             return True, False, messages
         messages.append("Il faut 200 pièces et 10 os de poulet pour ouvrir ce portail. (pas assez)")
         return True, True, messages
@@ -148,6 +148,12 @@ def creer_personnage():
 
 
 def boucle_jeu():
+    etat = {
+        "porte1_ouverte": False,
+        "porte2_ouverte": False,
+        "porte3_ouverte": False,
+        "victoire": False,
+    }
     perso = creer_personnage()
     ajouter_monstres(nombre=randint(3, 8))
     ajouter_coffre(nombre = randint(2,5))
@@ -179,12 +185,17 @@ def boucle_jeu():
             ancien_x, ancien_y = perso.x, perso.y
             deplace, case = deplacer_personnage(perso, direction)
             if deplace:
-                en_cours, revert, new_msgs = resoudre_case(perso, case)
+                en_cours, annuler, new_msgs = resoudre_case(perso, case, etat)
                 messages.extend(new_msgs)
-                if revert:
+                if annuler:
                     grille[perso.y][perso.x] = case
                     perso.x, perso.y = ancien_x, ancien_y
                     grille[ancien_y][ancien_x] = 5
-    print(Fore.RED + "Fin du jeu. Vous avez perdu !")
+    if etat["victoire"]:
+        print(Fore.GREEN + "🎉 VICTOIRE ! Tu as ouvert la porte finale et gagné la partie.")
+    elif perso.get_pv() <= 0:
+        print(Fore.RED + "Fin du jeu. Vous avez perdu !")
+    else:
+        print(Fore.YELLOW + "Fin de partie.")
 
 boucle_jeu()

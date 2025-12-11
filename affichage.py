@@ -61,7 +61,7 @@ def afficher():
         3: "⊞",
         4: "☻",
         5: "♀",
-        6: "_",
+        6: "✪",
         7: "|",
     }
     visibles = zones_visibles()
@@ -80,4 +80,4 @@ def afficher():
                 ligne_affichee.append(symbols.get(element, "?"))
         print(" ".join(ligne_affichee))
 
-    print("Légende: ◼ mur | _ porte | ⊞ coffre | ☻ monstre | ♀ héros | . vide | ? inconnu")
+    print("Légende: ◼ mur | _ porte | ✪ porte finale | ⊞ coffre | ☻ monstre | ♀ héros | . vide | ? inconnu")
