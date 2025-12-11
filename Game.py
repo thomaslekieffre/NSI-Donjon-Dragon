@@ -1,4 +1,5 @@
 from random import choice, sample, randint
+from colorama import Fore, Style
 
 from affichage import grille, afficher
 from Deplacement import deplacer_personnage
@@ -32,11 +33,12 @@ def generer_monstre():
     return Monstre(nom, race, classe)
 
 def ajouter_coffre(nombre):
-    cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
-    if not cases_vides:
-        return
-    x, y = choice(cases_vides)
-    grille[y][x] = 3
+    for i in range(nombre):
+        cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
+        if not cases_vides:
+            return
+        x, y = choice(cases_vides)
+        grille[y][x] = 3
 
 
 def saisie_option(prompt, options, default):
@@ -148,7 +150,7 @@ def creer_personnage():
 def boucle_jeu():
     perso = creer_personnage()
     ajouter_monstres(nombre=randint(3, 8))
-    ajouter_coffre(nombre=randint(2, 5))
+    ajouter_coffre(nombre = randint(2,5))
 
     en_cours = True
     messages = []
@@ -157,8 +159,9 @@ def boucle_jeu():
         for msg in messages:
             print(msg)
         messages = []
-        print(f"PV: {perso.get_pv()}/{perso.get_max_pv()} | Potions: {Personnage.races[perso.race]['inventaire'].get('potion',0)} | Or: {Personnage.races[perso.race]['inventaire'].get('or',0)}")
-        print("Deplacement zqsd ou haut/bas/gauche/droite, i inventaire, p potion, exit pour quitter")
+        print(Fore.MAGENTA + f"PV: {perso.get_pv()}/{perso.get_max_pv()} | Potions: {Personnage.races[perso.race]['inventaire'].get('potion',0)} | Or: {Personnage.races[perso.race]['inventaire'].get('or',0)}")
+        print(Fore.CYAN + "Deplacement zqsd ou haut/bas/gauche/droite, i inventaire, p potion, exit pour quitter")
+        print(Style.RESET_ALL)
         cmd = input("> ").strip().lower()
         quitter = cmd in ("exit", "quit", "q!")
         if quitter:
@@ -170,7 +173,8 @@ def boucle_jeu():
         else:
             direction = DIRECTIONS.get(cmd, cmd)
             if direction not in DIRECTIONS.values():
-                print("Commande inconnue. Utilise z/q/s/d ou haut/bas/gauche/droite.")
+                print(Fore.YELLOW + "Commande inconnue. Utilise z/q/s/d ou haut/bas/gauche/droite.")
+                print(Style.RESET_ALL)
                 continue
             ancien_x, ancien_y = perso.x, perso.y
             deplace, case = deplacer_personnage(perso, direction)
@@ -181,6 +185,6 @@ def boucle_jeu():
                     grille[perso.y][perso.x] = case
                     perso.x, perso.y = ancien_x, ancien_y
                     grille[ancien_y][ancien_x] = 5
-    print("Fin du jeu. Vous avez perdu !")
+    print(Fore.RED + "Fin du jeu. Vous avez perdu !")
 
 boucle_jeu()
