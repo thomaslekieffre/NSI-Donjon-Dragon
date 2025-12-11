@@ -22,37 +22,35 @@ def trouver_heros():
 
 def zones_visibles():
     """
-    Calcule les cases visibles depuis le héros avec un parcours en largeur (BFS simple).
+    Calcule les cases visibles depuis le héros.
 
     - Les murs (1) bloquent la vision.
     - Les portes fermées (2, 6, 7) sont visibles mais ne laissent pas voir au‑delà.
     - Dès qu'une porte est ouverte (sa case passe à 0 quand on la traverse),
       la vision se propage dans la pièce derrière.
     """
-    start = trouver_heros()
-    if start is None:
-        return set()
+    position_heros = trouver_heros()
+    cases_visibles = {position_heros} # Cases déjà visitées
+    file_positions = [position_heros] # File d'attente des autres cases à visiter
 
-    visibles = {start}
-    file = [start]  
-
-    while file:
-        x, y = file.pop(0)  # dépiler dans l'ordre d'arrivée
-        for dx, dy in DEPLACEMENTS:
-            nx, ny = x + dx, y + dy
-            if ny < 0 or ny >= len(grille) or nx < 0 or nx >= len(grille[0]):
+    while file_positions:
+        position_x, position_y = file_positions.pop(0)  # dépile en ordre d'arrivée
+        for decalage_x, decalage_y in DEPLACEMENTS:
+            voisin_x = position_x + decalage_x
+            voisin_y = position_y + decalage_y
+            if voisin_y < 0 or voisin_y >= len(grille) or voisin_x < 0 or voisin_x >= len(grille[0]):
                 continue
-            if (nx, ny) in visibles:
+            if (voisin_x, voisin_y) in cases_visibles:
                 continue
 
-            valeur = grille[ny][nx]
-            visibles.add((nx, ny))
+            valeur_case = grille[voisin_y][voisin_x]
+            cases_visibles.add((voisin_x, voisin_y))
 
             # On montre les cases si ce n'est ni mur ni porte fermée.
-            if valeur not in PORTES and valeur != 1:
-                file.append((nx, ny))
+            if valeur_case not in PORTES and valeur_case != 1:
+                file_positions.append((voisin_x, voisin_y))
 
-    return visibles
+    return cases_visibles
 
 
 def afficher():
