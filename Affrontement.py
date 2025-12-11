@@ -52,7 +52,15 @@ class Affrontement :
             reel = mechant.decrement_PV(degats)
             print(f"{heros.get_nom()} frappe ({degats} bruts) -> {reel} dégâts appliqués. Monstre: {mechant.get_pv()} PV")
         else:
+            if Personnage.classes[heros.get_classe()]["sorts"] == {}:
+                print("Plus de sorts disponibles ! Attaque normale à la place.")
+                degats = randint(1, heros.get_force())
+                reel = mechant.decrement_PV(degats)
+                print(f"{heros.get_nom()} frappe ({degats} bruts) -> {reel} dégâts appliqués. Monstre: {mechant.get_pv()} PV")
+                return
             nom_sort, degats = self.choisir_sort(heros)
+            print(Personnage.classes[heros.get_classe()]["sorts"][nom_sort])
+            del Personnage.classes[heros.get_classe()]["sorts"][nom_sort]
             reel = mechant.decrement_PV(degats)
             print(f"{heros.get_nom()} lance {nom_sort} ({degats} bruts) -> {reel} dégâts. Monstre: {mechant.get_pv()} PV")
 

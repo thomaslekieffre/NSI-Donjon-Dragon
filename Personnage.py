@@ -4,16 +4,16 @@ from Monstre import Monstre
 class Personnage:
     
     races = {
-            "humain": {"pv": 100, "force": 15, "dext": 1, "armure": 10, "inventaire":{"or": 50, "potion": 2}},
-            "elfe": {"pv": 80, "force": 15, "dext": 2, "armure": 5, "inventaire":{"or": 50, "potion": 2}},
-            "nain": {"pv": 90, "force": 20, "dext": 1, "armure": 15, "inventaire":{"or": 50, "potion": 2}},
-            "orc": {"pv": 110, "force": 20, "dext": 0, "armure": 15, "inventaire":{"or": 50, "potion": 2}},
-            "goblin": {"pv": 90, "force": 15, "dext": 2, "armure": 10, "inventaire":{"or": 50, "potion": 2}}
+            "humain": {"pv": 100, "force": 35, "dext": 1, "armure": 10, "inventaire":{"or": 50, "potion": 2}},
+            "elfe": {"pv": 80, "force": 25, "dext": 2, "armure": 5, "inventaire":{"or": 50, "potion": 2}},
+            "nain": {"pv": 90, "force": 30, "dext": 1, "armure": 15, "inventaire":{"or": 50, "potion": 2}},
+            "orc": {"pv": 110, "force": 30, "dext": 0, "armure": 15, "inventaire":{"or": 50, "potion": 2}},
+            "goblin": {"pv": 90, "force": 25, "dext": 2, "armure": 10, "inventaire":{"or": 50, "potion": 2}}
         }
     
     classes = {
-            "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "sorts": {"Petite explosion":20,"Boule de feu":35,"Éclair":50}, "objets": ["Potion de vie"]},
-            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "sorts": {"Tranche":20, "Brisefer":35, "Taillade Aérienne":50}, "objets": ["Potion de soin"]},
+            "magicien": {"armes": ["Bâton","Baguette pour enfants", "Baguette de suro"], "sorts": {"Petite explosion":30,"Boule de feu":45,"Éclair":60}, "objets": ["Potion de vie"]},
+            "guerrier": {"armes": ["Épee en plastique", "Épée de bois", "Sabre Flamboyant"], "sorts": {"Tranche":30, "Brisefer":45, "Taillade Aérienne":60}, "objets": ["Potion de soin"]},
         }
     
 
@@ -88,7 +88,6 @@ class Personnage:
                 self.races[self.race]["inventaire"][element] += quantite
             else:
                 self.races[self.race]["inventaire"][element] = quantite
-        monstre.races[monstre.race]["inventaire"] = {}  
         return self.races[self.race]["inventaire"]
         
 p1 = Personnage("zozo","orc","magicien")

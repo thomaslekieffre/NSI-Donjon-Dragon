@@ -14,8 +14,8 @@ DIRECTIONS = {
 }
 
 porte1_ouverte = False
-porte2_ouverte = True
-
+porte2_ouverte = False
+porte3_ouverte = False
 
 def trouver_position_depart():
     """Retourne les coordonnées où la carte contient un 5 (perso placé dans la map)."""
@@ -25,12 +25,18 @@ def trouver_position_depart():
                 return x, y
     return 1, 1  # si la map n'a pas de 5, on place le personnage en 1,1
 
-
 def generer_monstre():
     race = choice(list(Monstre.races.keys()))
     classe = choice(list(Monstre.classes.keys()))
     nom = f"{race.lower()} sauvage"
     return Monstre(nom, race, classe)
+
+def ajouter_coffre(nombre):
+    cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
+    if not cases_vides:
+        return
+    x, y = choice(cases_vides)
+    grille[y][x] = 3
 
 
 def saisie_option(prompt, options, default):
@@ -42,14 +48,13 @@ def saisie_option(prompt, options, default):
         print(f"Choix inconnu, on prend '{default}'.")
     return default
 
-
 def resoudre_case(personnage, case):
     messages = []
     if case == 2:
         bourse = Personnage.races[personnage.race]["inventaire"]
         if bourse.get("or", 0) >= 150:
             bourse["or"] -= 150
-            messages.append("Tu utilises 150 pieces pour ouvrir la porte. GG !")
+            messages.append("Tu utilises 150 pièces pour ouvrir la porte. GG !")
             grille[personnage.y][personnage.x] = 5
             porte1_ouverte = True
             return True, False, messages
@@ -60,18 +65,39 @@ def resoudre_case(personnage, case):
         bourse = Personnage.races[personnage.race]["inventaire"]
         if bourse.get("or", 0) >= 150:
             bourse["or"] -= 150
-            messages.append("Tu utilises 150 pieces pour ouvrir la porte. GG !")
+            messages.append("Tu utilises 150 pièces pour ouvrir la porte. GG !")
             grille[personnage.y][personnage.x] = 5
             porte2_ouverte = True
             return True, False, messages
         messages.append("Il faut 150 pièces pour ouvrir cette porte. (pas assez)")
         return True, True, messages
+    
+    if case == 6:
+        bourse = Personnage.races[personnage.race]["inventaire"]
+        if bourse.get("or", 0) >= 200 and bourse.get("os de poulet", 0)>=10 :
+            bourse["or"] -= 200
+            bourse["os de poulet"]-= 10
+            messages.append("Tu utilises 200 pièces et 10 os de poulet pour ouvrir le portail magique. GG !")
+            grille[personnage.y][personnage.x] = 5
+            porte3_ouverte = True
+            return True, False, messages
+        messages.append("Il faut 200 pièces et 10 os de poulet pour ouvrir ce portail. (pas assez)")
+        return True, True, messages
 
-    # TODO : Gérer coffre aléatoire (potion, or ...)
     if case == 3:
+        aleatoire = randint(1, 3)
         sac = Personnage.races[personnage.race]["inventaire"]
-        sac["potion"] = sac.get("potion", 0) + 1
-        messages.append("Tu ouvres un coffre : +1 potion")
+        if aleatoire == 1:
+            sac["potion"] = sac.get("potion", 0) + 1
+            messages.append("Tu ouvres un coffre : +1 potion")
+        elif aleatoire == 2:
+            montant = randint(10, 100)
+            sac["or"] = sac.get("or", 0) + montant
+            messages.append(f"Tu ouvres un coffre : +{montant} or")
+        else:
+            sac["os de poulet"] = sac.get("os de poulet", 0) + 3
+            messages.append("Tu ouvres un coffre : +3 os de poulet")
+        
         return True, False, messages
 
     if case == 4:
@@ -111,7 +137,6 @@ def utiliser_potion(personnage, soin=30):
     personnage.pv = min(personnage.get_pv() + soin, personnage.get_max_pv())
     return [f"Potion bue : +{soin} PV -> {personnage.get_pv()}/{personnage.get_max_pv()}"]
 
-
 def creer_personnage():
     x, y = trouver_position_depart()
     nom = input("Nom du héros ? ").strip() or "Heros"
@@ -122,7 +147,8 @@ def creer_personnage():
 
 def boucle_jeu():
     perso = creer_personnage()
-    ajouter_monstres(nombre=randint(1, 5))
+    ajouter_monstres(nombre=randint(3, 8))
+    ajouter_coffre(nombre=randint(2, 5))
 
     en_cours = True
     messages = []
@@ -155,7 +181,6 @@ def boucle_jeu():
                     grille[perso.y][perso.x] = case
                     perso.x, perso.y = ancien_x, ancien_y
                     grille[ancien_y][ancien_x] = 5
-
     print("Fin du jeu. Vous avez perdu !")
 
 boucle_jeu()
