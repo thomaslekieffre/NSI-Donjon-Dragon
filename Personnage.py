@@ -4,7 +4,7 @@ from Monstre import Monstre
 class Personnage:
     
     races = {
-            "humain": {"pv": 100, "force": 35, "dext": 1, "armure": 10, "inventaire":{"or": 50, "potion": 2}},
+            "humain": {"pv": 100, "force": 35, "dext": 1, "armure": 10, "inventaire":{"or": 850, "potion": 2}},
             "elfe": {"pv": 80, "force": 25, "dext": 2, "armure": 5, "inventaire":{"or": 50, "potion": 2}},
             "nain": {"pv": 90, "force": 30, "dext": 1, "armure": 15, "inventaire":{"or": 50, "potion": 2}},
             "orc": {"pv": 110, "force": 30, "dext": 0, "armure": 15, "inventaire":{"or": 50, "potion": 2}},

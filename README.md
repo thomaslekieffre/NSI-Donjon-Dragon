@@ -2,7 +2,9 @@
 # Fonctionnalités à implémenter
 
 ### - Combat ++
-  - Faire de meilleurs combats, gestion des sorts ...
+  - Pouvoir utiliser le sort qu'une fois
+  - Pas de critique ... Dégats = dégats pris, on peut enlever dégats bruts ...
+  - Message en haut qui doivent aller en bas
 
 ### - Faire plusieurs modes de jeux
   - Sortir du donjon, tuer un monstre, trouver un coffre
