@@ -34,7 +34,7 @@ def zones_visibles():
     file_positions = [position_heros] # File d'attente des autres cases à visiter
 
     while file_positions:
-        position_x, position_y = file_positions.pop(0)  # dépile en ordre d'arrivée
+        position_x, position_y = file_positions.pop(0)  # défiler en ordre d'arrivée
         for decalage_x, decalage_y in DEPLACEMENTS:
             voisin_x = position_x + decalage_x
             voisin_y = position_y + decalage_y

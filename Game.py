@@ -72,10 +72,10 @@ def resoudre_case(personnage, case, etat):
     
     if case == 6:
         bourse = Personnage.races[personnage.race]["inventaire"]
-        if bourse.get("or", 0) >= 200 and bourse.get("os de poulet", 0)>=10 :
+        if bourse.get("or", 0) >= 200 and bourse.get("os de poulet", 0)>=15 :
             bourse["or"] -= 200
-            bourse["os de poulet"]-= 10
-            messages.append("Tu utilises 200 pièces et 10 os de poulet pour ouvrir le portail magique. GG !")
+            bourse["os de poulet"]-= 15
+            messages.append("Tu utilises 200 pièces et 15 os de poulet pour ouvrir le portail magique. GG !")
             grille[personnage.y][personnage.x] = 5
             etat["porte3_ouverte"] = True
             if etat["porte1_ouverte"] and etat["porte2_ouverte"] and etat["porte3_ouverte"]:
@@ -83,7 +83,7 @@ def resoudre_case(personnage, case, etat):
                 messages.append("Porte finale ouverte : victoire !")
                 return False, False, messages
             return True, False, messages
-        messages.append("Il faut 200 pièces et 10 os de poulet pour ouvrir ce portail. (pas assez)")
+        messages.append("Il faut 200 pièces et 15 os de poulet pour ouvrir ce portail. (pas assez)")
         return True, True, messages
 
     if case == 3:
@@ -193,9 +193,15 @@ def boucle_jeu():
                     grille[ancien_y][ancien_x] = 5
     if etat["victoire"]:
         print(Fore.GREEN + "🎉 VICTOIRE ! Tu as ouvert la porte finale et gagné la partie.")
+        print(Style.RESET_ALL)
     elif perso.get_pv() <= 0:
         print(Fore.RED + "Fin du jeu. Vous avez perdu !")
+        print(Style.RESET_ALL)
     else:
         print(Fore.YELLOW + "Fin de partie.")
+        print(Style.RESET_ALL)
 
+    rejouer = input("Voulez vous rejouer ? \n ")
+    if rejouer == "oui":
+        boucle_jeu()
 boucle_jeu()

@@ -48,26 +48,25 @@ class Affrontement :
             [1, 2],
         )
         if choix == 1:
-            degats = randint(1, heros.get_force())
-            reel = mechant.decrement_PV(degats)
-            print(f"{heros.get_nom()} frappe ({degats} bruts) -> {reel} dégâts appliqués. Monstre: {mechant.get_pv()} PV")
+            degats = randint(10, heros.get_force())
+            mechant.decrement_PV(degats)
+            print(f"{heros.get_nom()} attaque {degats} dégâts appliqués. Monstre: {mechant.get_pv()} PV")
         else:
             if Personnage.classes[heros.get_classe()]["sorts"] == {}:
                 print("Plus de sorts disponibles ! Attaque normale à la place.")
-                degats = randint(1, heros.get_force())
-                reel = mechant.decrement_PV(degats)
-                print(f"{heros.get_nom()} frappe ({degats} bruts) -> {reel} dégâts appliqués. Monstre: {mechant.get_pv()} PV")
+                degats = randint(10, heros.get_force())
+                mechant.decrement_PV(degats)
+                print(f"{heros.get_nom()} attaque {degats} dégâts appliqués. Monstre: {mechant.get_pv()} PV")
                 return
             nom_sort, degats = self.choisir_sort(heros)
-            print(Personnage.classes[heros.get_classe()]["sorts"][nom_sort])
             del Personnage.classes[heros.get_classe()]["sorts"][nom_sort]
-            reel = mechant.decrement_PV(degats)
-            print(f"{heros.get_nom()} lance {nom_sort} ({degats} bruts) -> {reel} dégâts. Monstre: {mechant.get_pv()} PV")
+            mechant.decrement_PV(degats)
+            print(f"{heros.get_nom()} lance {nom_sort} {degats} dégâts. Monstre: {mechant.get_pv()} PV")
 
     def attaque_monstre(self, heros, mechant):
         degats = randint(1, mechant.get_force())
-        reel = heros.decrement_PV(degats)
-        print(f"{mechant.get_nom()} attaque ({degats} bruts) -> {reel} dégâts. Héros: {heros.get_pv()} PV")
+        heros.decrement_PV(degats)
+        print(f"{mechant.get_nom()} attaque {degats} dégâts. Héros: {heros.get_pv()} PV")
 
     def combatAMort(self, heros, mechant):
         print("\n=== Combat ===")
