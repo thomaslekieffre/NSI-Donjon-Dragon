@@ -1,10 +1,16 @@
-from random import choice, sample, randint
+from random import randint
 from colorama import Fore, Style
 
-from affichage import grille, afficher
+from affichage import (
+    grille,
+    afficher,
+    ajouter_coffre,
+    ajouter_monstres,
+    trouver_position_depart,
+)
 from Deplacement import deplacer_personnage
 from Personnage import Personnage
-from Monstre import Monstre
+from Monstre import generer_monstre
 from Affrontement import Affrontement
 
 DIRECTIONS = {
@@ -13,29 +19,6 @@ DIRECTIONS = {
     "q": "gauche",
     "d": "droite",
 }
-
-def trouver_position_depart():
-    """Retourne les coordonnées où la carte contient un 5 (perso placé dans la map)."""
-    for y, ligne in enumerate(grille):
-        for x, valeur in enumerate(ligne):
-            if valeur == 5:
-                return x, y
-    return 1, 1  # si la map n'a pas de 5, on place le personnage en 1,1
-
-def generer_monstre():
-    race = choice(list(Monstre.races.keys()))
-    classe = choice(list(Monstre.classes.keys()))
-    nom = f"{race.lower()} sauvage"
-    return Monstre(nom, race, classe)
-
-def ajouter_coffre(nombre):
-    for i in range(nombre):
-        cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
-        if not cases_vides:
-            return
-        x, y = choice(cases_vides)
-        grille[y][x] = 3
-
 
 def saisie_option(prompt, options, default):
     """Renvoie la valeur si dans options sinon le défaut, sans crasher."""
@@ -117,28 +100,6 @@ def resoudre_case(personnage, case, etat):
     return True, False, messages
 
 
-def ajouter_monstres(nombre):
-    cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
-    if not cases_vides:
-        return
-    # sample garantit des positions uniques (pas de doublons comme choice en boucle)
-    # On choisit k le plus petit nombre entre le nombre de monstres à ajouter et le nombre de cases vides
-    positions = sample(cases_vides, k=min(nombre, len(cases_vides)))
-    for x, y in positions:
-        grille[y][x] = 4
-
-
-def utiliser_potion(personnage, soin=30):
-    sac = Personnage.races[personnage.race]["inventaire"]
-    potions = sac.get("potion", 0)
-    if potions <= 0:
-        return ["Aucune potion disponible."]
-    if personnage.get_pv() >= personnage.get_max_pv():
-        return ["PV deja au maximum."]
-    sac["potion"] = potions - 1
-    personnage.pv = min(personnage.get_pv() + soin, personnage.get_max_pv())
-    return [f"Potion bue : +{soin} PV -> {personnage.get_pv()}/{personnage.get_max_pv()}"]
-
 def creer_personnage():
     x, y = trouver_position_depart()
     nom = input("Nom du héros ? ").strip() or "Heros"
@@ -175,7 +136,7 @@ def boucle_jeu():
         elif cmd == "i":
             perso.get_inventaire()
         elif cmd == "p":
-            messages.extend(utiliser_potion(perso) or [])
+            messages.extend(perso.utiliser_potion() or [])
         else:
             direction = DIRECTIONS.get(cmd, cmd)
             if direction not in DIRECTIONS.values():
@@ -201,7 +162,11 @@ def boucle_jeu():
         print(Fore.YELLOW + "Fin de partie.")
         print(Style.RESET_ALL)
 
-    rejouer = input("Voulez vous rejouer ? \n ")
+    rejouer = input('Voulez vous rejouer ? "oui" ou "non"\n ')
     if rejouer == "oui":
         boucle_jeu()
+    else:
+        print("Merci d'avoir joué !")
+        return
+
 boucle_jeu()

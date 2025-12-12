@@ -92,3 +92,15 @@ class Personnage:
             else:
                 self.races[self.race]["inventaire"][element] = quantite
         return self.races[self.race]["inventaire"]
+
+    def utiliser_potion(self, soin=30):
+        """Consomme une potion si disponible et soigne le héros."""
+        sac = Personnage.races[self.race]["inventaire"]
+        potions = sac.get("potion", 0)
+        if potions <= 0:
+            return ["Aucune potion disponible."]
+        if self.get_pv() >= self.get_max_pv():
+            return ["PV deja au maximum."]
+        sac["potion"] = potions - 1
+        self.pv = min(self.get_pv() + soin, self.get_max_pv())
+        return [f"Potion bue : +{soin} PV -> {self.get_pv()}/{self.get_max_pv()}"]

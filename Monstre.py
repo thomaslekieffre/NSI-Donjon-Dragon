@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 
 class Monstre:
     
@@ -54,3 +54,11 @@ class Monstre:
         self.pv -= valeur
         if self.pv < 0:
             self.pv = 0
+
+
+def generer_monstre():
+    """Crée un monstre aléatoire en combinant race et classe."""
+    race = choice(list(Monstre.races.keys()))
+    classe = choice(list(Monstre.classes.keys()))
+    nom = f"{race.lower()} sauvage"
+    return Monstre(nom, race, classe)

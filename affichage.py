@@ -1,3 +1,5 @@
+from random import choice, sample
+
 grille = []
 with open("carte.txt", "r") as f:
     for ligne in f:
@@ -51,6 +53,34 @@ def zones_visibles():
                 file_positions.append((voisin_x, voisin_y))
 
     return cases_visibles
+
+
+def trouver_position_depart():
+    """Renvoie la position du héros (5) ou (1,1) par défaut s'il n'est pas placé."""
+    position = trouver_heros()
+    if position:
+        return position
+    return 1, 1
+
+
+def ajouter_coffre(nombre):
+    """Place des coffres (3) sur des cases vides."""
+    for _ in range(nombre):
+        cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
+        if not cases_vides:
+            return
+        x, y = choice(cases_vides)
+        grille[y][x] = 3
+
+
+def ajouter_monstres(nombre):
+    """Place des monstres (4) sur des cases vides sans doublon."""
+    cases_vides = [(x, y) for y, ligne in enumerate(grille) for x, v in enumerate(ligne) if v == 0]
+    if not cases_vides:
+        return
+    positions = sample(cases_vides, k=min(nombre, len(cases_vides)))
+    for x, y in positions:
+        grille[y][x] = 4
 
 
 def afficher():
